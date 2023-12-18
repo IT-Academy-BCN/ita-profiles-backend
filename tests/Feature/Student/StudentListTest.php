@@ -14,6 +14,7 @@ class StudentListTest extends TestCase
 
         $this->artisan('passport:install');
     }
+
     public function verifyOrCreateRole()
     {
         if (!Role::where('name', 'student')->exists()) {
@@ -47,6 +48,4 @@ class StudentListTest extends TestCase
         $response->assertHeader('Content-Type', 'application/json');
 
     }
-
-
 }
