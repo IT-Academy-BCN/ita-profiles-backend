@@ -21,10 +21,16 @@ class AdminController extends Controller
         $admins = Admin::all();
 
         if ($admins->isEmpty()) {
-            throw new HttpResponseException(response()->json(['message' => __('No hi ha administradors a la base de dades')], 404));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('No hi ha administradors a la base de dades')],
+                404
+            ));
         }
 
-        return response()->json(['data' => AdminIndexResource::collection($admins)], 200);
+        return response()->json(
+            ['data' => AdminIndexResource::collection($admins)],
+            200
+        );
     }
 
     public function store(UserRequest $request)
@@ -44,10 +50,16 @@ class AdminController extends Controller
             return $user;
         });
         if (!$transaction) {
-            throw new HttpResponseException(response()->json(['message' => __('Registre no efectuat. Si-us-plau, torna-ho a provar.')], 404));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('Registre no efectuat. Si-us-plau, torna-ho a provar.')],
+                404
+            ));
         }
 
-        return response()->json(['message' => __('Registre realitzat amb èxit.')], 201);
+        return response()->json(
+            ['message' => __('Registre realitzat amb èxit.')],
+            201
+        );
     }
 
     public function show($id)
@@ -56,20 +68,27 @@ class AdminController extends Controller
         $admin = $this->findAdmin($id);
 
         if (!$admin) {
-            throw new HttpResponseException(response()->json(['message' => __('No hi ha administradors a la base de dades')], 404));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('No hi ha administradors a la base de dades')],
+                404
+            ));
         }
         if ($admin->id !== $loggeuser->admin->id) {
-            return response()->json(['message' => __('No tens permisos per veure aquest usuari.')], 401);
+            return response()->json(
+                ['message' => __('No tens permisos per veure aquest usuari.')],
+                401
+            );
         }
 
-        return response()->json(['data' => new AdminShowResource($admin)], 200);
+        return response()->json(
+            ['data' => new AdminShowResource($admin)],
+            200
+        );
     }
 
     private function findAdmin($id)
     {
-        $admin = Admin::findOrFail($id);
-
-        return $admin;
+        return Admin::findOrFail($id);
     }
 
     public function update(Request $request, $id)
@@ -78,17 +97,23 @@ class AdminController extends Controller
 
         $admin = $this->findAdmin($id);
         if ($admin->id !== $loggeuser->admin->id) {
-            throw new HttpResponseException(response()->json(['message' => __('No tens permís per modificar aquest usuari')], 401));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('No tens permís per modificar aquest usuari')],
+                401
+            ));
         }
 
         if (!$admin) {
-            throw new HttpResponseException(response()->json(['message' => __('No hi ha administradors a la base de dades')], 404));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('No hi ha administradors a la base de dades')],
+                404
+            ));
         }
 
         if ($request->surname) {
             $admin->user->surname = $request->surname;
-
-        }if ($request->name) {
+        }
+        if ($request->name) {
             $admin->user->name = $request->name;
         }
         if ($request->email) {
@@ -96,8 +121,10 @@ class AdminController extends Controller
         }
         $admin->save();
 
-        return response()->json(['message' => 'Usuari actualitzat amb èxit', 'data' => new AdminshowResource($admin)], 200);
-
+        return response()->json(
+            ['message' => 'Usuari actualitzat amb èxit', 'data' => new AdminshowResource($admin)],
+            200
+        );
     }
 
     public function destroy($id)
@@ -107,10 +134,16 @@ class AdminController extends Controller
         $loggeuser = Auth::user();
         $id = $this->findAdmin($id);
         if ($admin->id !== $loggeuser->admin->id) {
-            throw new HttpResponseException(response()->json(['message' => __('No tens permís per eliminar aquest usuari')], 401));
+            throw new HttpResponseException(response()->json(
+                ['message' => __('No tens permís per eliminar aquest usuari')],
+                401
+            ));
         }
         $admin->user->delete();
 
-        return response()->json(['message' => __('La seva compte ha estat eliminada amb èxit')], 200);
+        return response()->json(
+            ['message' => __('La seva compte ha estat eliminada amb èxit')],
+            200
+        );
     }
 }

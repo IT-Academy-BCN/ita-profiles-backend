@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DniNieRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -24,8 +25,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required',
-            'password' => 'required|min:8',
+            'dni' => ['required','string', new DniNieRule()],
+            'password' => 'required|min:8|string',
         ];
     }
 

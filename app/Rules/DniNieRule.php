@@ -5,7 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class DniRule implements ValidationRule
+class DniNieRule implements ValidationRule
 {
     /**
      * Run the validation rule.

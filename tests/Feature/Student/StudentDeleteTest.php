@@ -101,7 +101,5 @@ class StudentDeleteTest extends TestCase
 
         $response->status(401);
 
-
-
     }
 }

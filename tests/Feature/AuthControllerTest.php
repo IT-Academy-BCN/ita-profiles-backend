@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class LoginControllerTest extends TestCase
+class AuthControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -16,71 +19,63 @@ class LoginControllerTest extends TestCase
 
     public function test_Login_Success()
     {
-        $user = User::factory()->create([
-            'email' => 'pruebalogin@test.com',
+        User::factory()->create([
+            'dni' => '28386914S',
             'password' => bcrypt('password123'),
         ]);
 
-        $requestData = [
-            'email' => 'pruebalogin@test.com',
+        $credentials = [
+            'dni' => '28386914S',
             'password' => 'password123',
         ];
 
-        $response = $this->json('POST', '/api/v1/login', $requestData);
+        $response = $this->postJson(route('login'), $credentials);
 
         $response->assertStatus(200)->assertJsonStructure(['token']);
-
     }
 
-    public function test_a_user_can_login_with_short_password()
+    public function test_a_user_cannot_login_with_short_password()
     {
-        $user = User::factory()->create([
-            'email' => fake()->email(),
+        User::factory()->create([
+            'dni' => 'Z0038540C',
             'password' => '12345678',
         ]);
         $credentials = [
-            'email' => 'jose@gmail.com',
+            'dni' => 'Z0038540C',
             'password' => '123456',
         ];
 
-        $response = $this->json('POST', '/api/v1/login', $credentials);
+        $response = $this->postJson(route('login'), $credentials);
 
         $response->assertStatus(422);
-
     }
 
-    public function test_a_user_can_login_with_not_email()
+    public function test_a_user_cannot_login_without_dni_neither_passport()
     {
-        $user = User::factory()->create();
-        $credentials = [
-            'email',
-            'password' => '12345678',
-        ];
+        User::factory()->create();
 
-        $response = $this->json('POST', '/api/v1/login');
+        $response = $this->postJson(route('login'));
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email', 'password'])
+            ->assertJsonValidationErrors(['dni', 'password'])
             ->assertJson([
                 'errors' => [
-                    'email' => [__('El camp adreça electrònica és obligatori.')],
+                    'dni' => [__('El camp dni és obligatori.')],
                     'password' => [__('El camp contrasenya és obligatori.')],
                 ],
             ]);
-
     }
 
     public function test_login_failure_bad_data()
     {
-        $response = $this->post('/api/v1/login', [
-            'email' => 'invalid@example.com',
+        $response = $this->post(route('login'), [
+            'dni' => 'Z0038540C',
             'password' => 'wrongpassword',
         ]);
 
         $response->assertStatus(401);
         $response->assertJson([
-            'message' => __('Email o contrasenya incorrecte'),
+            'message' => __('Credencials invàlides, comprova-les i torneu a iniciar sessió'),
         ]);
-
     }
 
     public function test_can_logout()
@@ -88,7 +83,7 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user, 'api');
 
-        $response = $this->postJson('/api/v1/logout');
+        $response = $this->postJson(route('logout'));
 
         $response->assertStatus(200);
 
@@ -100,9 +95,9 @@ class LoginControllerTest extends TestCase
     public function test_logout_no_auth()
     {
 
-        $user = User::factory()->create();
+        User::factory()->create();
 
-        $response = $this->postJson('/api/v1/logout');
+        $response = $this->postJson(route('logout'));
 
         $response->assertStatus(401);
 

@@ -923,10 +923,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {
+                                    "DNI/NIE": {
                                         "type": "string",
-                                        "format": "email",
-                                        "example": "john@example.com"
+                                        "format": "text",
+                                        "example": "Z0038540C/83749707Z"
                                     },
                                     "password": {
                                         "type": "string",

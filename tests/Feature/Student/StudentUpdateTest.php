@@ -17,7 +17,6 @@ class StudentUpdateTest extends TestCase
         $this->artisan('passport:install');
     }
 
-
     public function verifyOrCreateRolesAndPermissions()
     {
         if (!Role::where('name', 'student')->exists()) {
@@ -56,8 +55,6 @@ class StudentUpdateTest extends TestCase
         ]);
 
         $this->assertAuthenticatedAs($user);
-
-
 
         $data = [
             'name' => 'Johnny',
@@ -108,7 +105,6 @@ class StudentUpdateTest extends TestCase
             'email' => fake()->email(),
             'password' => $password,
         ]);
-
 
         $this->actingAs($user, 'api');
 

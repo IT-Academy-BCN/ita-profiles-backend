@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Annotations\OpenApi\controllersAnnotations\loginAnnotations;
+namespace App\Annotations\OpenApi\controllersAnnotations\authAnnotations;
 
-class AnnotationsLogin
+class AnnotationsAuth
 {
     /**
      * @OA\Post(
@@ -17,7 +17,7 @@ class AnnotationsLogin
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *              @OA\Property(property="DNI/NIE", type="string", format="text", example="Z0038540C/83749707Z"),
      *              @OA\Property(property="password", type="string", format="password", example="secretpassword")
      *          )
      *      ),
