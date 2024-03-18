@@ -1,0 +1,2358 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ITA Profiles page API documentation",
+        "description": "Documentation needed for the API Rest for the ITA Profiles page to IT Academy. Some useful links below:\n *   [ITA Profles Backend](https://github.com/IT-Academy-BCN/ita-profiles-backend)\n *   [ITA Profiles Frontend](https://github.com/IT-Academy-BCN/ita-profiles-frontend)",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com"
+        },
+        {
+            "url": "http://127.0.0.1:8000/api/v1"
+        },
+        {
+            "url": "https://itaperfils.eurecatacademy.org"
+        },
+        {
+            "url": "https://itaperfils.eurecatacademy.org/api/v1"
+        }
+    ],
+    "paths": {
+        "/admins": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Get all admins",
+                "description": "Get a list of all admins. Requires admin role and valid token.",
+                "operationId": "getAllAdmins",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns a list of admins.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "Doe"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email",
+                                                "example": "john@example.com"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Token is missing or invalid."
+                    },
+                    "403": {
+                        "description": "Forbidden. User does not have the necessary permissions (admin role)."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Create a new admin",
+                "description": "Creates a new admin user with an invitation code.",
+                "operationId": "createAdmin",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678Y, X7959970T"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secretpassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Admin created successfully. No token is returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Admin created successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name field is required."
+                                                ],
+                                                "surname": [
+                                                    "The surname field is required."
+                                                ],
+                                                "email": [
+                                                    "The email must be unique."
+                                                ],
+                                                "dni": [
+                                                    "The dni/nie must be unique."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/{id}": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Get details of an administrator",
+                "description": "Get the details of a specific administrator. Requires admin role and valid token.",
+                "operationId": "getAdminDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the administrator",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns administrator details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "john@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden. Missing authentication token or admin role."
+                    },
+                    "404": {
+                        "description": "Not Found. Administrator with specified ID not found."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Update an administrator",
+                "description": "Update the details of a specific administrator. Requires admin role and valid token.",
+                "operationId": "updateAdmin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the administrator",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "New name of the administrator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "NewJohn"
+                        }
+                    },
+                    {
+                        "name": "surname",
+                        "in": "query",
+                        "description": "New surname of the administrator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "NewDoe"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "New email of the administrator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "email",
+                            "example": "newjohn@example.com"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns updated administrator details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "NewJohn"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "NewDoe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "newjohn@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You do not have permission to modify this user"
+                    },
+                    "404": {
+                        "description": "Not Found. Administrator with specified ID not found."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Delete an admin",
+                "description": "Delete a specific admin by their ID",
+                "operationId": "deleteAdmin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the admin to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Admin deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Admin deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing authentication token or admin role.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized. Missing authentication token or admin role."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No admins found in the database"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "description": "Log in a user with their email and password.",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "DNI/NIE": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Z0038540C/83749707Z"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secretpassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged in"
+                                        },
+                                        "user": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "auth_token": {
+                                            "type": "string",
+                                            "example": "eyJ0e..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email field is required."
+                                                ],
+                                                "password": [
+                                                    "The password field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout",
+                "description": "Log out the authenticated user.",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/development/list": {
+            "get": {
+                "tags": [
+                    "Development"
+                ],
+                "summary": "Retrieve a development list ",
+                "operationId": "5d0020d91a4ae2f766a81b9777fbce9f",
+                "responses": {
+                    "200": {
+                        "description": "Successful. Development list retrieved from json file",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recruiters": {
+            "get": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Get a list of all recruiters.",
+                "description": "Get a list of all registered recruiters. No authentication is required.",
+                "operationId": "getAllRecruiters",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns a list of registered recruiters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Laura"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "González"
+                                            },
+                                            "company": {
+                                                "type": "string",
+                                                "example": "ABC Corporation"
+                                            },
+                                            "sector": {
+                                                "type": "string",
+                                                "example": "Technology"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No recruiters found in the database.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hi ha reclutadors a la base de dades."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Create a new recruiter",
+                "description": "Creates a new recruiter user with an invitation code.",
+                "operationId": "createRecruiter",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678Y, X7959970T"
+                                    },
+                                    "company": {
+                                        "type": "string",
+                                        "example": "Apple"
+                                    },
+                                    "sector": {
+                                        "type": "string",
+                                        "example": "TIC"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secretpassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Recruiter created successfully. No token is returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Recruiter created successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name field is required."
+                                                ],
+                                                "surname": [
+                                                    "The surname field is required."
+                                                ],
+                                                "email": [
+                                                    "The email must be unique."
+                                                ],
+                                                "dni": [
+                                                    "The dni/nie must be unique."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recruiters/{id}": {
+            "get": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Get details of an recruiter",
+                "description": "Get the details of a specific recruiter. Requires recruiter role and valid token.",
+                "operationId": "getRecruiterDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the recruiter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns recruiter details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "company": {
+                                            "type": "string",
+                                            "example": "Apple"
+                                        },
+                                        "sector": {
+                                            "type": "string",
+                                            "example": "TIC"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "john@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found. recruiter with specified ID not found."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Update an recruiter",
+                "description": "Update the details of a specific recruiter. Requires recruiter role and valid token.",
+                "operationId": "updateRecruiter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the recruiter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns updated recruiter details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "NewJohn"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "NewDoe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "newjohn@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You do not have permission to modify this user"
+                    },
+                    "404": {
+                        "description": "Not Found. recruiter with specified ID not found."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Delete an recruiter",
+                "description": "Delete a specific recruiter by their ID",
+                "operationId": "deleteRecruiter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the recruiter to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "recruiter deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "recruiter deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing authentication token or recruiter role.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized. Missing authentication token or recruiter role."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "recruiter not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No recruiters found in the database"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/specialization/list": {
+            "get": {
+                "tags": [
+                    "Specialization"
+                ],
+                "summary": "Retrieve a specialization list from resume model enum",
+                "operationId": "be655a322f23a316278b5324e0cfb31c",
+                "responses": {
+                    "200": {
+                        "description": "Successful. Specialization list retrieved from enum",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student/list/for-home": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get all Students.",
+                "description": "Get a list of all students registered with the Profile-Home fields in Figma Design.\n\n     *     No authentication required",
+                "operationId": "getAllStudentsForFigma",
+                "responses": {
+                    "200": {
+                        "description": "A list of students",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "fullname": {
+                                                "type": "string",
+                                                "example": "Juan Pérez"
+                                            },
+                                            "subtitle": {
+                                                "type": "string",
+                                                "example": "Desarrollador Frontend"
+                                            },
+                                            "photo": {
+                                                "description": "Student Image Path",
+                                                "type": "string",
+                                                "example": "https://itaperfils.eurecatacademy.org/img/stud_1.png"
+                                            },
+                                            "tags": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/Tag"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/students": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get a list of all students.",
+                "description": "Get a list of all registered students.\n\n     No authentication required",
+                "operationId": "getAllStudents",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns a list of registered students.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John"
+                                                    },
+                                                    "surname": {
+                                                        "type": "string",
+                                                        "example": "Doe"
+                                                    },
+                                                    "photo": {
+                                                        "description": "Student Image Path",
+                                                        "type": "string",
+                                                        "example": "https://itaperfils.eurecatacademy.org/img/stud_1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "enum",
+                                                        "example": "Active"
+                                                    },
+                                                    "id": {
+                                                        "type": "uuid",
+                                                        "example": "9b7dae57-447f-48dc-b175-d243f093bb37"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Create a new Student.",
+                "description": "Creates a new user student. Authentication is not required.",
+                "operationId": "createStudent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "13954476P"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secretpassword"
+                                    },
+                                    "subtitle": {
+                                        "type": "string",
+                                        "example": "Engineer and Developer."
+                                    },
+                                    "bootcamp": {
+                                        "type": "string",
+                                        "example": "PHP Developer"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Student created successfully. No token is returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Student created successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name field is required."
+                                                ],
+                                                "surname": [
+                                                    "The surname field is required."
+                                                ],
+                                                "email": [
+                                                    "The email must be unique."
+                                                ],
+                                                "dni": [
+                                                    "The dni/nie must be unique."
+                                                ],
+                                                "subtitle": [
+                                                    "The subtitle field is required."
+                                                ],
+                                                "bootcamp": [
+                                                    "The bootcamp field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Register was not succesful.Please try it again later."
+                    }
+                }
+            }
+        },
+        "/students/{id}": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get details of a Student.",
+                "description": "Get the details of a specific student. Authentication is not required.",
+                "operationId": "getStudentDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the student",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns student details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John"
+                                                    },
+                                                    "surname": {
+                                                        "type": "string",
+                                                        "example": "Doe"
+                                                    },
+                                                    "subtitle": {
+                                                        "type": "string",
+                                                        "example": "Engineer and Developer."
+                                                    },
+                                                    "about": {
+                                                        "type": "string",
+                                                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                                                    },
+                                                    "cv": {
+                                                        "type": "string",
+                                                        "example": "My currículum."
+                                                    },
+                                                    "bootcamp": {
+                                                        "type": "string",
+                                                        "example": "PHP Developer"
+                                                    },
+                                                    "end_date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "..."
+                                                    },
+                                                    "linkedin": {
+                                                        "type": "string",
+                                                        "example": "http://www.linkedin.com"
+                                                    },
+                                                    "github": {
+                                                        "type": "string",
+                                                        "example": "http://www.github.com"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Update a Student.",
+                "description": "Update the details of a specific User. Requires student or admin role and valid token.",
+                "operationId": "updateStudent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Student to be updated.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "subtitle": {
+                                        "type": "string",
+                                        "example": "Engineer and Full Stack Developer"
+                                    },
+                                    "bootcamp": {
+                                        "type": "enum",
+                                        "example": "PHP Developer"
+                                    },
+                                    "about": {
+                                        "type": "text",
+                                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                                    },
+                                    "cv": {
+                                        "type": "string",
+                                        "example": "Updated Curriculum."
+                                    },
+                                    "linkedin": {
+                                        "type": "string",
+                                        "example": "http://www.linkedin.com"
+                                    },
+                                    "github": {
+                                        "type": "string",
+                                        "example": "http://www.github.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns Student details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "subtitle": {
+                                            "type": "string",
+                                            "example": "Engineer and Full Stack Developer"
+                                        },
+                                        "bootcamp": {
+                                            "type": "enum",
+                                            "example": "PHP Developer"
+                                        },
+                                        "end_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "..."
+                                        },
+                                        "about": {
+                                            "type": "text",
+                                            "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                                        },
+                                        "cv": {
+                                            "type": "string",
+                                            "example": "Updated Curriculum."
+                                        },
+                                        "linkedin": {
+                                            "type": "string",
+                                            "example": "http://www.linkedin.com"
+                                        },
+                                        "github": {
+                                            "type": "string",
+                                            "example": "http://www.github.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing authentication token, admin role, student role, or not matching id.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "It was not possible to complete transaction.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong. Try it again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Delete a Student.",
+                "description": "Delete a specific Student-User by his ID. Requires student or admin role and valid token.",
+                "operationId": "deleteStudent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Student to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Student deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Student deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing authentication token, admin role, student role, or not matching id.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "It was not possible to complete transaction.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong. Try it again later-"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/student/detail/for-home": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Get Student Detail.",
+                "description": "Get student detail registered. No authentication required",
+                "operationId": "getStudentDetail",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "student_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "profile_detail": {
+                                                        "properties": {
+                                                            "fullname": {
+                                                                "type": "string",
+                                                                "example": "Juan Pérez"
+                                                            },
+                                                            "subtitle": {
+                                                                "type": "string",
+                                                                "example": "Desarrollador Frontend"
+                                                            },
+                                                            "social_media": {
+                                                                "properties": {
+                                                                    "linkedin": {
+                                                                        "properties": {
+                                                                            "url": {
+                                                                                "type": "string",
+                                                                                "example": "https://es.linkedin.com/"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "github": {
+                                                                        "properties": {
+                                                                            "url": {
+                                                                                "type": "string",
+                                                                                "example": "https://github.com/"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "about": {
+                                                                "properties": {
+                                                                    "description": {
+                                                                        "type": "string",
+                                                                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a euismod elit. Nunc elit ante, vulputate sed maximus eu, posuere eu nibh. In eget lacus in mi pharetra volutpat a a justo. Fusce aliquet nibh nec accumsan facilisis. Suspendisse in tempor nibh, eu fermentum velit. Suspendisse cursus ultricies ipsum, eget tincidunt arcu pretium laoreet. Pellentesque eget egestas erat. Donec dapibus pharetra ultrices. Vivamus mollis sapien sed laoreet interdum."
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "tags": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "$ref": "#/components/schemas/Tag"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/students/{uuid}/bootcamp": {
+            "get": {
+                "tags": [
+                    "Bootcamp"
+                ],
+                "summary": "Get a detailed list of a student bootcamp",
+                "description": "Returns detail for a specific student bootcamp. (Note: This endpoint returns hardcoded bootcamp details)",
+                "operationId": "getStudentBootcamp",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Student UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "bootcamp_id": {
+                                                "description": "Bootcamp ID",
+                                                "type": "string"
+                                            },
+                                            "bootcamp_name": {
+                                                "description": "Bootcamp Name",
+                                                "type": "string"
+                                            },
+                                            "bootcamp_end_date": {
+                                                "description": "Bootcamp end date",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student not found"
+                    }
+                }
+            }
+        },
+        "/students/{uuid}/languages": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get a detailed list of languages and level for a student",
+                "description": "Returns a list of Languages and level for a specific student. (Note: This endpoint returns hardcoded project details)",
+                "operationId": "getStudentLanguages",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Student UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "language_id": {
+                                                "description": "id for languange",
+                                                "type": "integer"
+                                            },
+                                            "language_name": {
+                                                "description": "Language",
+                                                "type": "string"
+                                            },
+                                            "language_level": {
+                                                "description": "Language level",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/students/{uuid}/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get a detailed list of projects for a student",
+                "description": "Returns a list of projects for a specific student. (Note: This endpoint returns hardcoded project details)",
+                "operationId": "getStudentProjects",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Student UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "project_name": {
+                                                "description": "Name of the project",
+                                                "type": "string"
+                                            },
+                                            "project_site": {
+                                                "description": "Site where the project is happening",
+                                                "type": "string"
+                                            },
+                                            "project_skills": {
+                                                "description": "Skills required for the project",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "project_repository": {
+                                                "description": "URL of the project repository",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student not found"
+                    }
+                }
+            }
+        },
+        "/tags": {
+            "get": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Tags Index.",
+                "description": "Retrieve a list of registered tags. Admin Authentication is required.",
+                "operationId": "getAllTags",
+                "responses": {
+                    "200": {
+                        "description": "Successful. Tag Index retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "tag_name": {
+                                                "type": "string",
+                                                "example": "Laravel"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-01-25T12:34:56Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-01-25T12:34:56Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No tags found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No tags found in the database."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Create a new tag",
+                "description": "Creates a new tag. Admin Authentication is required.",
+                "operationId": "createTag",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tag_name": {
+                                        "type": "string",
+                                        "example": "Laravel"
+                                    },
+                                    "created_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-01-25T12:34:56Z"
+                                    },
+                                    "updated_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-01-25T12:34:56Z"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tag created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag created successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating the tag.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error creating the tag. Please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/tags/{id}": {
+            "get": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Get details of a specific tag",
+                "description": "Retrieve details of a specific tag based on the provided ID. Admin Authentication is required.",
+                "operationId": "getTagById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Tag ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tag_name": {
+                                                    "type": "string",
+                                                    "example": "Laravel"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-25T12:34:56Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-25T12:34:56Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Update details of a specific tag.",
+                "description": "Updates details of a specific tag based on the provided ID. Admin Authentication is required.",
+                "operationId": "updateTag",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the tag to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tag_name": {
+                                        "type": "string",
+                                        "example": "Updated Tag"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tag details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "tag_name": {
+                                                "type": "string",
+                                                "example": "Laravel"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-01-25T12:34:56Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-01-25T12:34:56Z"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Tag updated successfully."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Delete a specific tag.",
+                "description": "Deletes a specific tag based on the provided ID. Admin Authentication is required.",
+                "operationId": "deleteTag",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the tag to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AnnotationsAdmin": {
+                "title": "Admin",
+                "description": "Admin Model",
+                "properties": {
+                    "id": {
+                        "description": "Admin ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "description": "ID of the associated User",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Creation date of the Admin record",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update date of the Admin record",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Admin"
+                }
+            },
+            "AnnotationsRecruiter": {
+                "title": "Recruiter",
+                "description": "Recruiter Model",
+                "properties": {
+                    "id": {
+                        "description": "Recruiter ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "company": {
+                        "description": "Recruiter Company",
+                        "type": "string",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "description": "ID of the associated User",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Creation date of the Recruiter record",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update date of the Recruiter record",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Recruiter"
+                }
+            },
+            "AnnotationsStudent": {
+                "title": "Student",
+                "description": "Student Model",
+                "properties": {
+                    "id": {
+                        "description": "Student ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "description": "ID of the associated User",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "subtitle": {
+                        "description": "Presentation subtitle of the Student",
+                        "type": "string"
+                    },
+                    "about": {
+                        "description": "Presentation text of the Student",
+                        "type": "string"
+                    },
+                    "cv": {
+                        "description": "Curriculum of the Student-file?",
+                        "type": "string"
+                    },
+                    "bootcamp": {
+                        "description": "Name of the Bootcamp attended by the Student",
+                        "type": "enum"
+                    },
+                    "end_date": {
+                        "description": "Student Bootcamp's ending date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "linkedin": {
+                        "description": "Url of student's linkedin",
+                        "type": "string"
+                    },
+                    "github": {
+                        "description": "Url of student's github",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation date of the Student record",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update date of the Student record",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Student"
+                }
+            },
+            "Tag": {
+                "title": "Tag",
+                "description": "Tag Model",
+                "properties": {
+                    "id": {
+                        "description": "Tag ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "tag_name": {
+                        "description": "Tag Name",
+                        "type": "string",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Tag creation date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Tag update date",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Tag"
+                }
+            },
+            "AnnotationsUser": {
+                "title": "User",
+                "description": "User Model",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "User's first name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "surname": {
+                        "description": "User's last name",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "dni": {
+                        "description": "User's DNI",
+                        "type": "string",
+                        "example": "12345678B"
+                    },
+                    "email": {
+                        "description": "User's email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "password": {
+                        "description": "User's password",
+                        "type": "string",
+                        "format": "password",
+                        "example": "********"
+                    },
+                    "created_at": {
+                        "description": "User's creation date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "User's update date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "email_verified_at": {
+                        "description": "User's email verification date",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            }
+        }
+    }
+}

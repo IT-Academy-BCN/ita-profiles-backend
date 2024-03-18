@@ -12,6 +12,7 @@ use App\Http\Controllers\api\StudentBootcampDetailController;
 use App\Http\Controllers\api\StudentDetailController;
 use App\Http\Controllers\api\TagController;
 use App\Http\Controllers\api\SpecializationListController;
+use App\Http\Controllers\api\StudentLanguagesDetailController;
 use App\Http\Controllers\api\TagListController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,9 @@ Route::get('/students/{id}/projects', StudentProjectsDetailController::class)->n
 //Student Collaboration fake Endpoint
 Route::get('/studentCollaborations', StudentCollaborationController::class)->name('collaborations.list');
 
+// Student languages details Endpoint
+Route::get('/students/{id}/languages', StudentLanguagesDetailController::class)->name('languages.list');
+
 //Admins Route
 Route::post('/admins', [AdminController::class, 'store'])->name('admins.create');
 //Passport Auth with token
@@ -65,7 +69,7 @@ Route::middleware('auth:api')->group(function () {
     //Recruiter
     Route::put('/recruiters/{id}', [RecruiterController::class, 'update'])->name('recruiter.update');
     Route::delete('/recruiters/{id}', [RecruiterController::class, 'destroy'])->name('recruiter.delete');
-    //Admin
+    //Admin 
     Route::get('/admins/{id}', [AdminController::class, 'show'])->middleware('role:admin')->name('admin.show');
     Route::put('/admins/{id}', [AdminController::class, 'update'])->middleware('role:admin')->name('admin.update');
     Route::delete('/admins/{id}', [AdminController::class, 'destroy'])->middleware('role:admin')->name('admin.destroy');
