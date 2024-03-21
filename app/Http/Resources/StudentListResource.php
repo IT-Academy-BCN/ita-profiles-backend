@@ -16,8 +16,8 @@ class StudentListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => Str::ucfirst($this->user->name),
-            'surname' => Str::ucfirst($this->user->surname),
+            'name' => Str::ucfirst($this->name),
+            'surname' => Str::ucfirst($this->surname),
             'subtitle' => Str::ucfirst($this->subtitle),
             'about ' => Str::ucfirst($this->about),
             'cv' => $this->cv,
@@ -25,6 +25,7 @@ class StudentListResource extends JsonResource
             'end_date' => $this->end_date,
             'linkedin' => $this->linkedin,
             'github ' => $this->github,
+            'id' => $this->id
         ];
     }
 }

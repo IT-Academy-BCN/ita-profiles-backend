@@ -17,6 +17,12 @@ class Student extends Model
      * @var array
      */
     protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'surname',
+        'photo',
+     
+    ];
 
     public function resume()
     {

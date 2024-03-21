@@ -174,18 +174,13 @@ class AnnotationsStudent
      *      summary="Update a Student.",
      *      description="Update the details of a specific User. Requires student or admin role and valid token.",
      *      security={ {"bearerAuth": {} } },
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          description="ID of the Student to be updated.",
-     *          required=true,
-     *
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *      ),
+     ** @OA\Parameter(
+  *     name="id",
+ *     in="path",
+ *     required=true,
+ *     description="UUID of the tag to be deleted",
+ *     @OA\Schema(type="string", format="uuid"),
+ * ),
      *
      *      @OA\RequestBody(
      *          required=true,
@@ -257,17 +252,13 @@ class AnnotationsStudent
      *      description="Delete a specific Student-User by his ID. Requires student or admin role and valid token.",
      *      security={{"bearerAuth":{}}},
      *
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          description="ID of the Student to be deleted",
-     *          required=true,
-     *
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *      ),
+     *  * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     description="UUID of the student to be deleted",
+     *     @OA\Schema(type="string", format="uuid"),
+     * ),
      *
      *      @OA\Response(
      *          response=200,

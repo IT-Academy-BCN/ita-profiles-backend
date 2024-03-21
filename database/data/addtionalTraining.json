@@ -1,0 +1,60 @@
+{
+    "additionalTraining": [
+        {
+            "id": 1,
+            "course": "FP aplicaciones moviles",
+            "center": "Insituto Lope de Vega ",
+            "year": "2019-2021",
+            "duration": 450
+        },
+        {
+            "id" : 2,
+            "course" : "Curso de Desarrollo Web",
+            "center" : "Udemy",
+            "year" : "2022",
+            "duration" : 120
+        },
+        {
+            "id" : 3,
+            "course" : "Introducción a la Inteligencia Artificial",
+            "center" : "Coursera",
+            "year" : "2023",
+            "duration" : 200
+        },
+        {
+            "id" : 4,
+            "course" : "Diseño de Interfaces de Usuario",
+            "center" : "Platzi",
+            "year" : "2022",
+            "duration" : 150
+        },
+        {
+            "id" : 5,
+            "course" : "Machine Learning con Python",
+            "center" : "FreeCodeCamp",
+            "year" : "2021-2022",
+            "duration" : 100
+        },
+        {
+            "id" : 6,
+            "course" : "Gestión de Proyectos",
+            "center" : "edX",
+            "year" : "2022",
+            "duration" : 40
+        },
+        {
+            "id": 7,
+            "course": "Curs de programació",
+            "center": "IT Academy",
+            "year": "2020- 2021",
+            "duration": 10
+        },
+        {
+            "id": 8,
+            "course": "Curs de programació",
+            "center": "IT Academy",
+            "year": "2020-01-01 - 2020-01-01",
+            "duration": 10
+        }
+    ]
+}

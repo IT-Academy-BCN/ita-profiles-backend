@@ -4,56 +4,57 @@ namespace App\Annotations\OpenApi\controllersAnnotations\tagAnnotations;
 
 class AnnotationsTag
 {
-    /**
-     * Tag List
-     *
-     * @OA\Get(
-     *     path="/tags",
-     *     operationId="getAllTags",
-     *     tags={"Tags"},
-     *     summary="Tags Index.",
-     *     description="Retrieve a list of registered tags. Admin Authentication is required.",
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful. Tag Index retrieved.",
-     *
-     *         @OA\JsonContent(
-     *             type="array",
-     *
-     *             @OA\Items(
-     *                 type="object",
-     *
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="tag_name", type="string", example="Laravel"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-25T12:34:56Z"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-25T12:34:56Z"),
-     *             )
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
-     *
-     *         @OA\JsonContent(
-     *
-     *             @OA\Property(property="status", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="Unauthorized")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=404,
-     *         description="No tags found.",
-     *
-     *         @OA\JsonContent(
-     *
-     *             @OA\Property(property="message", type="string", example="No tags found in the database.")
-     *         )
-     *     )
-     * )
-     */
+   /**
+ * Tag List
+ *
+ * @OA\Get(
+ *     path="/tags",
+ *     operationId="getAllTags",
+ *     tags={"Tags"},
+ *     summary="Tags Index.",
+ *     description="Retrieve a list of registered tags. Admin Authentication is required.",
+ *     security={{"bearerAuth": {}}},
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful. Tag Index retrieved.",
+ *
+ *         @OA\JsonContent(
+ *             type="array",
+ *
+ *             @OA\Items(
+ *                 type="object",
+ *
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="tag_name", type="string", example="Laravel"),
+ *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-25T12:34:56Z"),
+ *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-25T12:34:56Z"),
+ *             )
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *
+ *         @OA\JsonContent(
+ *
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Unauthorized")
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=404,
+ *         description="No tags found.",
+ *
+ *         @OA\JsonContent(
+ *
+ *             @OA\Property(property="message", type="string", example="No tags found in the database.")
+ *         )
+ *     )
+ * )
+ */
     public function index() {}
 
     /**
@@ -222,14 +223,13 @@ class AnnotationsTag
      *     description="Deletes a specific tag based on the provided ID. Admin Authentication is required.",
      *     security={{"bearer": {}}},
      *
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID of the tag to be deleted",
-     *
-     *         @OA\Schema(type="integer", format="int64"),
-     *     ),
+     *  @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     description="UUID of the tag to be deleted",
+     *     @OA\Schema(type="string", format="uuid"),
+     *   ),
      *
      *     @OA\Response(
      *         response=200,
