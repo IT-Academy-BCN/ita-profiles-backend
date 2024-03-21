@@ -8,11 +8,11 @@ class AnnotationsStudentProjectsDetail
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/students/{uuid}/projects",
+     *      path="/students/{uuid}/projects",
      *      operationId="getStudentProjects",
      *      tags={"Projects"},
      *      summary="Get a detailed list of projects for a student",
-     *      description="Returns a list of projects for a specific student. (Note: This endpoint returns hardcoded project details)",
+     *      description="Returns a list of projects for a specific student.",
      *      @OA\Parameter(
      *          name="uuid",
      *          description="Student UUID",

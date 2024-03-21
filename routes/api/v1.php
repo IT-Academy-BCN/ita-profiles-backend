@@ -13,7 +13,6 @@ use App\Http\Controllers\api\StudentBootcampDetailController;
 use App\Http\Controllers\api\StudentDetailController;
 use App\Http\Controllers\api\TagController;
 use App\Http\Controllers\api\SpecializationListController;
-use App\Http\Controllers\api\TagListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,7 +51,7 @@ Route::get('/modality', CourseModalityController::class)->name('modality.course'
 Route::get('/specialization/list', SpecializationListController::class)->name('roles.list');
 
 // Student projects detail Endpoint
-Route::get('/students/{id}/projects', StudentProjectsDetailController::class)->name('projects.list');
+Route::get('/students/{student}/projects', StudentProjectsDetailController::class)->name('projects.list');
 
 //Student Collaboration fake Endpoint
 Route::get('/studentCollaborations', StudentCollaborationController::class)->name('collaborations.list');
