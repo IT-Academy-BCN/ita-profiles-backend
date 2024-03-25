@@ -12,21 +12,33 @@ use Illuminate\Support\Collection;
 class StudentListService
 {
 
-    public function execute(?array $specializations = null): array
+    public function execute(?array $specializations = null, ?array $tags = null): array
     {
-        $resumes = $this->getResumes($specializations);
+        $resumes = $this->getResumes($specializations, $tags);
 
         return $this->mapResumesToData($resumes);
     }
 
-    private function getResumes(?array $specializations): Collection
+    public function getResumes(?array $specializations, ?array $tags = null): Collection
     {
+        $query = Resume::query();
 
-        if ($specializations[0] != null) {
-            $resumes = Resume::whereIn('specialization', $specializations)->get();
-        } else {
-            $resumes = Resume::all();
+        if ($specializations !== null && $specializations[0] != null) {
+            $query->whereIn('specialization', $specializations);
         }
+        if ($tags != null) {
+            $query->where(function ($query) use ($tags) {
+                foreach ($tags as $tag) {
+
+                    $tagId = Tag::where('tag_name', $tag)->value('id');
+                    if ($tagId) {
+
+                        $query->orWhereJsonContains('tags_ids', $tagId);
+                    }
+                }
+            });
+        }
+        $resumes = $query->get();
 
         if ($resumes->isEmpty()) {
             throw new ModelNotFoundException(__('No hi ha resums'), 404);

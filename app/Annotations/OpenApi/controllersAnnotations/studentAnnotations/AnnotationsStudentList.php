@@ -22,6 +22,10 @@ class AnnotationsStudentList
 - For example, if the objetive is to filter Backend and Frontend students, the query would be:
 
     ```/student/list/for-home?specialization=frontend,backend```
+    - To filter by tags, the query would be:
+    ```/student/list/for-home?tags=PHP,Laravel```
+    - To filter by both specialization and tags:
+    ```/student/list/for-home?specialization=frontend&tags=php,react```
 
 ---
 
@@ -35,6 +39,15 @@ class AnnotationsStudentList
      *       style="form",
      *       explode=true,
      *
+     *       @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *       name="tags",
+     *       in="query",
+     *       description="The tags to filter students by",
+     *       required=false,
+     *       style="form",
+     *       explode=true,
      *       @OA\Schema(type="string")
      *     ),
      *
